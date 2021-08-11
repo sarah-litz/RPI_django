@@ -1,0 +1,38 @@
+<!-- Home Page -->
+<!DOCTYPE html> 
+
+<html>
+    <head> 
+        <meta charset="utf-8"> 
+        <title>Experiment Setup</title>
+        <style>
+            table, th, td { border: 1px solid black;}
+        </style>
+    </head>
+
+
+    <body>
+        <h1> Experiment Index </h1>
+        <table>
+            <tr> 
+                <th> Experiment id </th>
+                <th> User </th>
+                <th> Date </th>
+                <th> Scripts </th> 
+                <th> Link to Experiment Details </th> 
+            </tr>
+            {% for exp in experiments %}
+            <tr> 
+                <td> {{ exp.id }} </td>
+                <td> {{ exp.user_name }} </td>
+                <td> {{ exp.date }} </td>
+                <td> {{ exp.script_set.count }} </td>
+                <td> <a href=" {% url 'setupExperimentApp:view_experiment' exp.id %} "> View Experiment {{ exp.id }}  scripts </a> </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <p>
+            <a href="{% url 'setupExperimentApp:new_experiment'%}"> Add New Experiment </a>
+        </p>
+    </body> 
+</html> 

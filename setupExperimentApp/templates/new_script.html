@@ -1,0 +1,17 @@
+<!DOCTYPE html> 
+
+<html>
+    <head> 
+        <meta charset="utf-8"> 
+        <title> Add a New Script </title>
+    </head>
+
+
+    <body>
+        <form action='.' method='post'>
+            {%csrf_token %} 
+            {{ form.as_p }}
+            <button name = "submit">Add Script</button>
+        </form>
+    
+    </body>

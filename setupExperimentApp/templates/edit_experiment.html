@@ -1,0 +1,24 @@
+<!DOCTYPE html> 
+
+<html>
+    <head> 
+        <meta charset="utf-8"> 
+    </head>
+
+    <body>
+        <h1> Edit An Experiment's Details </h1>
+        <!--  ExperimentForm() used for editing a specific experiment's model fields  -->
+
+        <p>
+            {{ id }} / {{ user_name }} / {{ date }} 
+        </p>
+            {{ script_set }} 
+
+
+        <form action='.' method='post'>
+            {%csrf_token %} 
+            {{ form.as_p }}
+            <button name = "submit">Save Changes</button>
+        </form>
+    
+    </body>
