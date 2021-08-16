@@ -5,6 +5,12 @@ from django.urls import reverse
 from .models import Experiment
 from .forms import ExperimentForm, ScriptForm
 
+
+import plotly
+from pychartjs import BaseChart, ChartType, Color 
+import plotly.express as px 
+import pandas as pd 
+
 # Create your views here.
 '''class HomePageView(TemplateView): 
     def get(self, request, **kwargs): # expects an HTTP GET request to the url defined in the urls.py file 
@@ -22,7 +28,9 @@ def view_experiment(request, exp_id):
     user_name = exp.user_name
     script_set = exp.script_set.all()
     date = exp.date 
+    
     context = {'experiment':exp, 'id':id, 'user_name':user_name, 'date':date, 'script_set':script_set}
+
     return render(request, 'view_experiment.html', context)
 
 def edit_experiment(request, exp_id): 

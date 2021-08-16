@@ -1,4 +1,5 @@
 from django.db import models
+from pychartjs import BaseChart, ChartType, Color 
 
 # Create your models here.
 
@@ -18,4 +19,73 @@ class Script(models.Model):
     SCRIPT_CHOICES = [ ('Magazine', 'Magazine'), 
                        ('Autoshape', 'Autoshape') ]
     type = models.TextField(choices = SCRIPT_CHOICES)
+    
+    # GANTT CHART # # # # # # # # 
+    class MyBarGraph(BaseChart): 
+        
+        type = ChartType.HorizontalBar
+
+        class labels: ["1", "2", "3", "4"],   # FOR ALL DATA POINTS TO SHOW UP YOU MUST HAVE THE CORRECT NUMBER OF LABELS LISTED! 
+        
+        class data: 
+            
+            class dataset1: 
+                data = 0, 100, 150, 600
+                backgroundColor = Color.RGBA(63,103,126,0)
+                hoverBackgroundColor = Color.RGBA(50,90,100,0)
+            class dataset2: 
+                data = 100, 100, 200, 200, 100,
+                backgroundColor = [Color.Red, Color.Green, Color.Blue, Color.Yellow]
+        
+        class options:
+
+            title = {"text": "TITLE", "display": True} 
+            animation = {"duration": 10}
+            hover = {"animationDuration": 10 }
+            responsiveAnimationDuration = 0
+
+            legend = {
+                    'display': 'false', 
+                    'position': 'bottom', 
+                    'labels': {
+                        'fontColor': Color.Gray, 
+                        'fullWidth': True
+                        }
+                    }
+            scales = {
+                "xAxes": [{
+                    "label": "Durations", 
+                    "ticks": { 
+                        "beginAtZero": True, 
+                    }, 
+                    "gridLines": { }, 
+                    "stacked": True, 
+                }], 
+                "yAxes": [{
+                    "id": "events",
+                    "gridLines": { 
+                        "display":False, 
+                        "color": "#fff", 
+                        "zeroLineColor": "#fff", 
+                        "zeroLineWidth": 0, 
+                    }, 
+                    "ticks": {
+                        # "callback": "<<function(value, index, values) {return value + ' Big Ones';}>>",
+                    }, 
+                    "stacked": True, 
+                }], 
+                "legend":{
+                    "display":False
+                }
+            }
+    
+    
+    graph = MyBarGraph() 
+    graphJSON = graph.get() 
+    
+    
+    
+
+    # # # # # # # # # # # # # # # 
+
 

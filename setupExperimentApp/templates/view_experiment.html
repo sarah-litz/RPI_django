@@ -7,6 +7,9 @@
         <style>
             table, th, td { border: 1px solid black;}
         </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
     </head>
 
     <body>
@@ -17,7 +20,7 @@
             experiment #{{ id }} / name: {{ user_name }} / date: {{ date }} 
         </h3>
 
-        <a href=" {% url 'setupExperimentApp:edit_experiment' id %} "> Edit Experiment </a> 
+        <a href=" {% url 'setupExperimentApp:edit_experiment' id %} "> Edit Experiment User Name </a> 
 
         <body>
             <h4> Script Index </h4>
@@ -26,16 +29,117 @@
                     <th> Script Name </th>
                     <th> Script Configurations </th>
                 </tr>
-               
                 {% for script in script_set %}
                 <tr>
                     <td> {{ script.type }} </td> 
+                    <td>
+                        
+                        <canvas id="myChart{{script.id}}"></canvas>
+                        
+                    </td>
+                    <td>
+
+                        {{ script.graphJSON | safe }}
+
+                        <div class="graph_container">
+                            <script type="text/javascript" scriptID={{script.id}}>
+                                // var chart = document.currentScript.getAttribute('scriptChart');
+                                var chart = {{ script.graphJSON | safe }};  
+                                var scriptID = document.currentScript.getAttribute('scriptID' ); 
+                                console.log('script chart:', chart);
+                                console.log('script id:', scriptID);
+                                var ctx = document.getElementById("myChart{{script.id}}").getContext('2d');
+                                var myChart{{script.id}} = new Chart(ctx, chart)  
+                                        
+                                /* 
+                                    options: {
+                                            hover :{
+                                            animationDuration:10
+                                        },
+                                        scales: {
+                                            xAxes: [{
+                                                label:"Duration",
+                                                ticks: {
+                                                    beginAtZero:true,
+                                                    fontFamily: "'Open Sans Bold', sans-serif",
+                                                    fontSize:11
+                                                },
+                                                scaleLabel:{
+                                                    display:false
+                                                },
+                                                gridLines: {
+                                                },
+                                                stacked: true
+                                            }],
+                                            yAxes: [{
+                                                gridLines: {
+                                                    display:false,
+                                                    color: "#fff",
+                                                    zeroLineColor: "#fff",
+                                                    zeroLineWidth: 0
+                                                },
+                                                ticks: {
+                                                    fontFamily: "'Open Sans Bold', sans-serif",
+                                                    fontSize:11
+                                                },
+                                                stacked: true
+                                            }]
+                                        },
+                                        legend:{
+                                            display:false
+                                        },
+                                    }
+                                }); 
+                            */
+                            
+                            </script>
+                        </div>
+                    </td> 
                 </tr>
                 {% endfor %}
 
             </table>
         <a href=" {% url 'setupExperimentApp:new_script' id %} "> Add New Script </a> 
-        </body>
+        
+        <!-- chartJSON = {{chartJSON}} -->
+
+       <!--<script> 
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: ["open door", "wait", "close door", "etc"],
+                datasets: [{
+                    data: [50, 150, 300, 400, 500],
+                    backgroundColor: "rgba(63,103,126,0)",
+                    hoverBackgroundColor: "rgba(50,90,100,0)"
+                },{
+                    data: [100, 100, 200, 200, 100],
+                    backgroundColor: ['red', 'green', 'blue', 'yellow'],
+                }]
+            },
+            // options: barOptions_stacked,
+        });
+        // this part to make the tooltip only active on your real dataset
+        /* var originalGetElementAtEvent = myChart.getElementAtEvent;
+        myChart.getElementAtEvent = function (e) {
+            return originalGetElementAtEvent.apply(this, arguments).filter(function (e) {
+                return e._datasetIndex === 1;
+            });
+        }
+                //# sourceURL=pen.js */
+          
+        </script> -->
+        <!--
+        <script type="text/javascript">
+            console.log('In Script Tag to display myChart'); 
+            var data = {{ chartJSON | safe }}; 
+            var ctx = document.getElementById("myChart").getContext('2d');
+            var myChart = new Chart(ctx, data);
+
+        </script>    
+        -->
+    </body>
 
     
     </body>
